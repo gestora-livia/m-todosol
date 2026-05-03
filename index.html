@@ -219,43 +219,6 @@
             </div>
         </div>
     </div>
-
-    <!-- DOBRA 1.1 - IA CONSULTORIA EXPRESSO -->
-    <section class="py-24 px-6 bg-white overflow-hidden">
-        <div class="container mx-auto max-w-5xl">
-            <div class="bg-[#fcfaf7] rounded-[2.5rem] p-8 md:p-16 border border-gray-100 shadow-sm relative overflow-hidden">
-                <div class="absolute -top-24 -left-24 w-64 h-64 bg-cream/40 rounded-full blur-3xl"></div>
-                
-                <div class="relative z-10 text-center mb-10">
-                    <span class="text-gold font-bold uppercase tracking-widest text-xs">Exclusivo Consultoria Expresso</span>
-                    <h2 class="text-3xl md:text-5xl text-dark-gold mt-4 mb-6 font-serif italic">Receba um diagnóstico para o seu caos</h2>
-                    <p class="text-gray-600 max-w-2xl mx-auto text-lg leading-relaxed">Qual é o maior incêndio operacional que você está tentando apagar hoje? Nossa IA estratégica baseada no Método S.O.L. vai te dar uma direção agora mesmo.</p>
-                </div>
-
-                <div class="max-w-2xl mx-auto relative z-10">
-                    <textarea id="launch-pain" rows="4" class="w-full rounded-2xl border-gray-200 border-2 p-6 text-gray-700 focus:border-gold focus:ring-0 transition-all text-lg mb-6" placeholder="Ex: Copy sempre atrasa entrega e atrasa toda a operação, não tem clareza do que priorizar..."></textarea>
-                    
-                    <div class="flex flex-col items-center gap-6">
-                        <button id="diagnose-btn" class="btn-cta w-full md:w-auto px-12 text-lg">
-                            Diagnosticar meu gargalo
-                        </button>
-                        
-                        <div id="ai-status" class="hidden text-dark-gold font-medium italic animate-pulse">
-                            Processando diagnóstico<span class="loading-dots"></span>
-                        </div>
-                    </div>
-
-                    <div id="ai-result-box" class="hidden mt-10 bg-white p-8 rounded-3xl border-l-8 border-gold shadow-lg animate-fade-in text-left">
-                        <h4 class="text-gold font-bold uppercase tracking-widest text-xs mb-4">Prescrição Estratégica</h4>
-                        <div id="ai-result-content" class="text-gray-700 leading-relaxed space-y-4 text-lg">
-                            <!-- Resultado da IA -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- DOBRA 2 - DOR -->
     <section class="bg-dark-gold py-28 px-6 text-white overflow-hidden relative">
         <div class="container mx-auto max-w-4xl text-center relative z-10">
@@ -564,7 +527,7 @@
                 A estrutura que falta na sua operação tem nome e pode estar pronta em poucos dias.
             </p>
             <div class="space-y-6 mt-16">
-                <a href="https://wa.me/seunumerodewhatsapp" target="_blank" class="btn-cta text-xl md:text-3xl px-12 md:px-20 py-6 md:py-8 shadow-xl not-italic font-bold tracking-widest transition-all">
+                <a href="https://forms.gle/nDytzfNrxyWtVMhK9" target="_blank" class="btn-cta text-xl md:text-3xl px-12 md:px-20 py-6 md:py-8 shadow-xl not-italic font-bold tracking-widest transition-all">
                     Quero conhecer a estrutura
                 </a>
                 <p class="text-cream/80 uppercase tracking-widest text-xs font-bold mt-6">30 minutos · Sem compromisso · Você já sai com clareza</p>
@@ -575,87 +538,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Script da IA Segura -->
-    <script>
-        const apiKey = ""; 
-        const modelName = "gemini-2.5-flash-preview-09-2025";
-
-        async function callGemini(prompt) {
-            const systemPrompt = `Você é Lívia Lima, Gestora Estratégica especializada no Método S.O.L. (Sistema Operacional de Lançamentos). 
-            O usuário descreverá um problema que está vivendo na operação de seu lançamento digital.
-            Sua tarefa é:
-            1. Dar uma resposta empática mas curta reconhecendo a dor.
-            2. Sugerir como o Método S.O.L. e o ClickUp resolveriam isso especificamente.
-            3. Dar 3 passos operacionais imediatos.
-            Mantenha o tom sofisticado e autoritário. Não use aspas. Responda em Português do Brasil.`;
-
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
-            
-            const payload = {
-                contents: [{ parts: [{ text: prompt }] }],
-                systemInstruction: { parts: [{ text: systemPrompt }] }
-            };
-
-            for (let i = 0; i < 5; i++) {
-                try {
-                    const response = await fetch(url, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-                    
-                    if (!response.ok) throw new Error('API Error');
-                    
-                    const data = await response.json();
-                    
-                    if (data && data.candidates && data.candidates && data.candidates.content && data.candidates.content.parts && data.candidates.content.parts) {
-                        return data.candidates.content.parts.text;
-                    }
-                    return "Desculpe, tive um problema ao analisar seu caos. Tente novamente!";
-                } catch (error) {
-                    if (i === 4) throw error;
-                    await new Promise(r => setTimeout(r, Math.pow(2, i) * 1000));
-                }
-            }
-        }
-
-        const diagnoseBtn = document.getElementById('diagnose-btn');
-        const painInput = document.getElementById('launch-pain');
-        const aiStatus = document.getElementById('ai-status');
-        const aiResultBox = document.getElementById('ai-result-box');
-        const aiResultContent = document.getElementById('ai-result-content');
-
-        if(diagnoseBtn) {
-            diagnoseBtn.addEventListener('click', async () => {
-                const pain = painInput.value.trim();
-                if (!pain) return;
-
-                diagnoseBtn.disabled = true;
-                diagnoseBtn.style.opacity = '0.5';
-                aiStatus.classList.remove('hidden');
-                aiResultBox.classList.add('hidden');
-
-                try {
-                    const response = await callGemini(pain);
-                    const formattedResponse = response
-                        .split('\n')
-                        .filter(line => line.trim())
-                        .map(line => `<p class="mb-4">${line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>`)
-                        .join('');
-
-                    aiResultContent.innerHTML = formattedResponse;
-                    aiResultBox.classList.remove('hidden');
-                } catch (error) {
-                    aiResultContent.innerHTML = "<p>Ocorreu um erro ao processar sua solicitação. Por favor, tente novamente.</p>";
-                    aiResultBox.classList.remove('hidden');
-                } finally {
-                    diagnoseBtn.disabled = false;
-                    diagnoseBtn.style.opacity = '1';
-                    aiStatus.classList.add('hidden');
-                }
-            });
-        }
 
         // Ancora suave
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
