@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Método S.O.L. | Operação Estratégica</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #947653;
+            --dark-gold: #5b3b03;
+            --light-cream: #ffe1a1;
+            --white: #ffffff;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--white);
+            color: #333;
+            scroll-behavior: smooth;
+        }
+        h1, h2, h3, .font-serif-italic {
+            font-family: 'Playfair Display', serif;
+        }
+        .bg-gold { background-color: var(--gold); }
+        .text-gold { color: var(--gold); }
+        .bg-dark-gold { background-color: var(--dark-gold); }
+        .text-dark-gold { color: var(--dark-gold); }
+        .bg-cream { background-color: var(--light-cream); }
+        
+        .btn-cta {
+            background-color: var(--light-cream);
+            color: var(--dark-gold);
+            padding: 1.25rem 2.5rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+        }
+        .btn-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px -5px rgba(91, 59, 3, 0.4);
+            background-color: var(--gold);
+            color: var(--white);
+        }
+        
+        /* Animação da Faixa (Marquee) */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+            display: flex;
+            background-color: var(--dark-gold);
+        }
+        .marquee-content {
+            display: flex;
+            animation: marquee 40s linear infinite;
+            min-width: 200%;
+        }
+        .marquee-item {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            padding: 1rem 3rem;
+        }
+
+        /* Fallback para imagens */
+        .img-container {
+            position: relative;
+            background-color: #f3f3f3;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .img-fallback {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            border: 1px solid #eee;
+            z-index: 1;
+        }
+
+        /* AI Section Styles */
+        .loading-dots:after {
+            content: '.';
+            animation: dots 1.5s steps(5, end) infinite;
+        }
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60% { content: '...'; }
+            80%, 100% { content: ''; }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Script de Erro de Imagem -->
+    <script>
+        function handleImgError(img) {
+            img.style.display = 'none';
+            const fallback = img.parentElement.querySelector('.img-fallback');
+            if (fallback) {
+                fallback.style.display = 'flex';
+            }
+        }
+    </script>
+
+    <!-- DOBRA 1 - HERO -->
+    <section class="relative min-h-[90vh] flex items-center px-6 md:px-12 py-12 overflow-hidden bg-white">
+        <div class="container mx-auto grid lg:grid-cols-2 gap-16 items-center">
+            
+            <!-- Texto (Esquerda) -->
+            <div class="z-10 order-1 text-center lg:text-left">
+                <span class="inline-block px-4 py-1 rounded-full bg-cream text-dark-gold text-xs font-bold mb-8 tracking-widest uppercase">Método S.O.L. — Sistema Operacional de Lançamentos</span>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl leading-tight mb-6 text-dark-gold font-serif">
+                    Pare de rodar lançamento sempre como se fosse a <span class="italic font-normal text-gold">primeira vez.</span>
+                </h1>
+                <p class="text-lg md:text-xl text-gray-600 mb-10 leading-relaxed mx-auto lg:mx-0 max-w-lg">
+                    Estruture a operação do seu lançamento e saia do caos. Transformamos confusão em processos que rodam sem depender de você.
+                </p>
+                <div class="space-y-4">
+                    <a href="#contato" class="btn-cta text-lg w-full md:w-auto">
+                        Quero conhecer a estrutura
+                    </a>
+                    <p class="text-sm text-gray-500 font-medium italic">30 minutos · Sem compromisso · Você já sai com clareza</p>
+                </div>
+            </div>
+
+            <!-- Imagem (Direita) - MOCKUP COMPUTADOR FLUTUANTE -->
+            <div class="relative order-2 flex justify-center mt-10 lg:mt-0" style="perspective: 1200px;">
+                <!-- Efeito de brilho de fundo -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-cream rounded-full opacity-30 blur-3xl z-0"></div>
+                
+                <!-- Sombra Flutuante (Chão) -->
+                <div class="absolute -bottom-16 left-1/2 -translate-x-1/2 w-[70%] h-10 bg-black/15 blur-xl rounded-[100%] z-0"></div>
+
+                <!-- Estrutura do Computador -->
+                <div class="relative w-full max-w-lg transition-transform duration-700 hover:rotate-0 z-10" style="transform: rotateY(-12deg) rotateX(8deg) rotateZ(-2deg); transform-style: preserve-3d;">
+                    
+                    <!-- Tampa / Tela -->
+                    <div class="bg-[#1e1e1e] rounded-t-[1.5rem] rounded-b-md p-2 md:p-3 shadow-2xl relative border-t-2 border-x-2 border-[#333]">
+                        
+                        <!-- Barra de ferramentas (Pontos vermelho, amarelo, verde) -->
+                        <div class="flex items-center justify-between px-3 pb-3 pt-1">
+                            <div class="flex gap-2">
+                                <div class="w-3 h-3 rounded-full bg-[#ff5f56] shadow-sm"></div>
+                                <div class="w-3 h-3 rounded-full bg-[#ffbd2e] shadow-sm"></div>
+                                <div class="w-3 h-3 rounded-full bg-[#27c93f] shadow-sm"></div>
+                            </div>
+                            <!-- Fake Notch (Opcional, estilo Macbook novo) -->
+                            <div class="w-16 h-3 bg-black rounded-b-md absolute top-0 left-1/2 -translate-x-1/2"></div>
+                        </div>
+
+                        <!-- Área de Exibição da Imagem -->
+                        <div class="bg-gray-900 overflow-hidden aspect-[16/10] relative rounded-md border border-gray-800 bg-white">
+                            <div class="img-fallback">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                                <p class="text-xs mt-2 font-semibold uppercase tracking-widest opacity-50 text-gold">Visão Geral ClickUp</p>
+                            </div>
+                            <!-- SUA IMAGEM 1.PNG AQUI -->
+                            <img src="1.png" alt="Print do ClickUp com as fases do lançamento visíveis" class="relative z-10 w-full h-full object-cover object-left-top" onerror="handleImgError(this)">
+                        </div>
+                        
+                        <div class="h-4 w-full"></div> <!-- Espaçamento Inferior da Tela -->
+                    </div>
+
+                    <!-- Base de Alumínio do Computador -->
+                    <div class="relative w-[110%] -left-[5%] bg-gradient-to-b from-[#e4e4e7] to-[#9ca3af] h-3 md:h-5 rounded-b-[1.5rem] rounded-t-sm shadow-[0_25px_50px_rgba(0,0,0,0.5)] border border-gray-300 border-t-0 flex justify-center items-start z-0">
+                        <!-- Recuo de abertura (Aquele buraquinho para levantar a tela do Mac) -->
+                        <div class="w-1/5 h-1 md:h-2 bg-gray-400/80 rounded-b-md shadow-inner mt-0"></div>
+                    </div>
+                    
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FAIXA COM FRASES PASSANDO (Letra maiúscula só na primeira) -->
+    <div class="marquee-container border-y border-gold/20">
+        <div class="marquee-content">
+            <div class="marquee-item font-serif-italic italic text-gold text-xl md:text-2xl tracking-widest">
+                <span>Operação com clareza</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="text-gold"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
+                <span>Time que executa sozinho</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="text-gold"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
+                <span>Processos replicáveis</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="text-gold"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
+            </div>
+            <div class="marquee-item font-serif-italic italic text-gold text-xl md:text-2xl tracking-widest">
+                <span>Operação com clareza</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="text-gold"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
+                <span>Time que executa sozinho</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="text-gold"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
+                <span>Processos replicáveis</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="text-gold"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- DOBRA 1.1 - IA CONSULTORIA EXPRESSO -->
+    <section class="py-24 px-6 bg-white overflow-hidden">
+        <div class="container mx-auto max-w-5xl">
+            <div class="bg-[#fcfaf7] rounded-[2.5rem] p-8 md:p-16 border border-gray-100 shadow-sm relative overflow-hidden">
+                <div class="absolute -top-24 -left-24 w-64 h-64 bg-cream/40 rounded-full blur-3xl"></div>
+                
+                <div class="relative z-10 text-center mb-10">
+                    <span class="text-gold font-bold uppercase tracking-widest text-xs">Exclusivo Consultoria Expresso</span>
+                    <h2 class="text-3xl md:text-5xl text-dark-gold mt-4 mb-6 font-serif italic">Receba um diagnóstico para o seu caos</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto text-lg leading-relaxed">Qual é o maior incêndio operacional que você está tentando apagar hoje? Nossa IA estratégica baseada no Método S.O.L. vai te dar uma direção agora mesmo.</p>
+                </div>
+
+                <div class="max-w-2xl mx-auto relative z-10">
+                    <textarea id="launch-pain" rows="4" class="w-full rounded-2xl border-gray-200 border-2 p-6 text-gray-700 focus:border-gold focus:ring-0 transition-all text-lg mb-6" placeholder="Ex: Copy sempre atrasa entrega e atrasa toda a operação, não tem clareza do que priorizar..."></textarea>
+                    
+                    <div class="flex flex-col items-center gap-6">
+                        <button id="diagnose-btn" class="btn-cta w-full md:w-auto px-12 text-lg">
+                            Diagnosticar meu gargalo
+                        </button>
+                        
+                        <div id="ai-status" class="hidden text-dark-gold font-medium italic animate-pulse">
+                            Processando diagnóstico<span class="loading-dots"></span>
+                        </div>
+                    </div>
+
+                    <div id="ai-result-box" class="hidden mt-10 bg-white p-8 rounded-3xl border-l-8 border-gold shadow-lg animate-fade-in text-left">
+                        <h4 class="text-gold font-bold uppercase tracking-widest text-xs mb-4">Prescrição Estratégica</h4>
+                        <div id="ai-result-content" class="text-gray-700 leading-relaxed space-y-4 text-lg">
+                            <!-- Resultado da IA -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DOBRA 2 - DOR -->
+    <section class="bg-dark-gold py-28 px-6 text-white overflow-hidden relative">
+        <div class="container mx-auto max-w-4xl text-center relative z-10">
+            <h2 class="text-3xl md:text-5xl mb-16 text-white font-serif">Reconhece algum desses cenários?</h2>
+            
+            <div class="space-y-6 text-left max-w-3xl mx-auto">
+                <div class="flex items-start gap-4">
+                    <span class="text-gold text-2xl mt-1">☑</span>
+                    <p class="text-lg md:text-xl font-light leading-relaxed">Cada lançamento parece o primeiro. Nada é documentado, nada se replica.</p>
+                </div>
+                <div class="flex items-start gap-4">
+                    <span class="text-gold text-2xl mt-1">☑</span>
+                    <p class="text-lg md:text-xl font-light leading-relaxed">A data da captação chega e o time entra em modo pânico. Ninguém sabe o que falta, o que está pronto, o que já foi aprovado.</p>
+                </div>
+                <div class="flex items-start gap-4">
+                    <span class="text-gold text-2xl mt-1">☑</span>
+                    <p class="text-lg md:text-xl font-light leading-relaxed">Você aprovando tudo via WhatsApp às 23h porque sem você nada avança.</p>
+                </div>
+                <div class="flex items-start gap-4">
+                    <span class="text-gold text-2xl mt-1">☑</span>
+                    <p class="text-lg md:text-xl font-light leading-relaxed">Você sabe o que tem que fazer, mas sem método. Só uma lista de tarefas sem lógica de execução.</p>
+                </div>
+                <div class="flex items-start gap-4">
+                    <span class="text-gold text-2xl mt-1">☑</span>
+                    <p class="text-lg md:text-xl font-light leading-relaxed">Você contratou pessoas, mas a confusão só aumentou.</p>
+                </div>
+            </div>
+
+            <div class="mt-20 p-8 border border-gold/30 rounded-2xl bg-white/5 backdrop-blur-sm">
+                <p class="text-xl md:text-2xl font-light leading-relaxed">
+                    O problema não é a ferramenta. Não é a equipe. É que ninguém organizou o sistema por trás. <span class="font-bold text-cream">Não é falta de esforço. É falta de sistema.</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- DOBRA 3 - O QUE É O S.O.L. -->
+    <section class="py-24 px-6 md:px-12 bg-white">
+        <div class="container mx-auto grid lg:grid-cols-2 gap-16 items-center">
+            <div class="order-1">
+                <h2 class="text-3xl md:text-5xl text-dark-gold mb-8 font-serif">O que é o Método S.O.L.</h2>
+                <div class="space-y-6 text-lg text-gray-700 leading-relaxed">
+                    <p>
+                        S.O.L. significa Sistema Operacional de Lançamentos. É a estrutura completa da sua operação dentro do ClickUp, com fases, tarefas, responsáveis, fluxo e lógica, pronta para a equipe executar sem precisar te perguntar nada.
+                    </p>
+                    <p class="font-semibold text-dark-gold border-l-4 border-gold pl-4 py-2 bg-gray-50">
+                        Não é um template genérico. É construído para o seu modelo de lançamento, do zero.
+                    </p>
+                </div>
+            </div>
+            <div class="order-2 img-container rounded-2xl shadow-xl aspect-video p-2 bg-gray-50 border border-gray-100">
+                <div class="img-fallback">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    <p class="text-xs mt-2 font-semibold uppercase tracking-widest opacity-50">Calendário de Tarefas</p>
+                </div>
+                <img src="2.png" alt="Print do ClickUp mostrando o calendário de tarefas" class="w-full h-full object-contain" onerror="handleImgError(this)">
+            </div>
+        </div>
+    </section>
+
+    <!-- DOBRA 4 - COMO FUNCIONA A ENTREGA -->
+    <section class="py-24 px-6 md:px-12 bg-[#fcfaf7]">
+        <div class="container mx-auto grid lg:grid-cols-2 gap-16 items-center">
+            <div class="order-2 lg:order-1 img-container rounded-2xl shadow-xl aspect-video p-2 bg-white border border-gray-100">
+                <div class="img-fallback">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                    <p class="text-xs mt-2 font-semibold uppercase tracking-widest opacity-50">Lista de Subtarefas</p>
+                </div>
+                <img src="3.png" alt="Print da lista de subtarefas com responsáveis" class="w-full h-full object-contain" onerror="handleImgError(this)">
+            </div>
+            <div class="order-1 lg:order-2">
+                <h2 class="text-3xl md:text-5xl text-dark-gold mb-10 font-serif">Como funciona a entrega</h2>
+                <div class="space-y-8">
+                    <div>
+                        <h3 class="text-xl font-bold text-dark-gold mb-1"><span class="text-gold">1.</span> Reunião de alinhamento</h3>
+                        <p class="text-gray-700">Entendo seu modelo de lançamento, funil, equipe, ferramentas e gargalos atuais. Aqui já começa a clareza.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-dark-gold mb-1"><span class="text-gold">2.</span> Estruturação no ClickUp</h3>
+                        <p class="text-gray-700">Crio todas as fases, listas de tarefas, subtarefas, responsáveis e fluxo de aprovação. Tudo com lógica operacional pensada para o seu time executar sozinho.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-dark-gold mb-1"><span class="text-gold">3.</span> Blueprint do lançamento</h3>
+                        <p class="text-gray-700">Documento central com todas as informações do projeto — datas, oferta, KPIs, acessos. Chega ao fim o "cadê isso mesmo?"</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-dark-gold mb-1"><span class="text-gold">4.</span> Alinhamento com a equipe</h3>
+                        <p class="text-gray-700">Apresento a estrutura para o time. Todo mundo entende o que fazer, quando e como. Sem dúvidas, sem retrabalho, sem você no meio.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-dark-gold mb-1"><span class="text-gold">5.</span> Rodada de ajustes</h3>
+                        <p class="text-gray-700">Uma revisão estrutural após a entrega para garantir que tudo está alinhado antes da execução começar.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DOBRA 5 - O QUE VOCÊ RECEBE -->
+    <section class="py-24 px-6 md:px-12 bg-white">
+        <div class="container mx-auto grid lg:grid-cols-2 gap-16 items-center">
+            <div class="order-1">
+                <h2 class="text-3xl md:text-5xl text-dark-gold mb-10 font-serif">O que você recebe</h2>
+                <ul class="space-y-5 text-lg text-gray-700 mb-10">
+                    <li class="flex items-center gap-3"><span class="text-gold text-xl">☑</span> Backlog estruturado com todas as tarefas de cada fase</li>
+                    <li class="flex items-center gap-3"><span class="text-gold text-xl">☑</span> Fluxo de responsáveis sem ambiguidade</li>
+                    <li class="flex items-center gap-3"><span class="text-gold text-xl">☑</span> Blueprint do projeto centralizado</li>
+                    <li class="flex items-center gap-3"><span class="text-gold text-xl">☑</span> Calendário de tarefas com visão cronológica</li>
+                    <li class="flex items-center gap-3"><span class="text-gold text-xl">☑</span> Visão de tarefas em atraso para agir antes do problema virar crise</li>
+                    <li class="flex items-center gap-3"><span class="text-gold text-xl">☑</span> Estrutura replicável para cada novo lançamento</li>
+                </ul>
+                <div class="text-center lg:text-left">
+                    <a href="#contato" class="btn-cta text-lg w-full md:w-auto">
+                        Quero conhecer a estrutura
+                    </a>
+                    <p class="text-sm text-gray-500 font-medium italic mt-4">30 minutos · Sem compromisso · Você já sai com clareza</p>
+                </div>
+            </div>
+            <div class="order-2 img-container rounded-2xl shadow-xl aspect-video p-2 bg-gray-50 border border-gray-100">
+                <div class="img-fallback">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 20v-6M6 20V10M18 20V4"/></svg>
+                    <p class="text-xs mt-2 font-semibold uppercase tracking-widest opacity-50">Visão de Tarefas em Atraso</p>
+                </div>
+                <img src="4.png" alt="Print de tarefas em atraso" class="w-full h-full object-contain" onerror="handleImgError(this)">
+            </div>
+        </div>
+    </section>
+
+    <!-- DOBRA 6 - RESULTADOS DE QUEM JÁ OPEROU (Ajustado para cor clara) -->
+    <section class="bg-[#fcfaf7] py-28 px-6 text-center">
+        <div class="container mx-auto max-w-5xl">
+            <h2 class="text-3xl md:text-5xl text-dark-gold mb-16 font-serif">Resultados de quem já operou com o S.O.L.</h2>
+            
+            <div class="grid gap-12 text-left">
+                <!-- Case 1 -->
+                <div class="bg-white border border-gold/20 shadow-sm p-8 md:p-12 rounded-3xl">
+                    <div class="flex flex-col md:flex-row justify-between items-baseline mb-6 gap-4 border-b border-gray-100 pb-6">
+                        <p class="text-5xl md:text-6xl font-serif text-dark-gold">R$ 280 mil</p>
+                        <span class="text-gold font-bold uppercase tracking-widest text-sm bg-cream/30 px-4 py-2 rounded">Case MasterNova</span>
+                    </div>
+                    <p class="text-lg md:text-xl text-gray-700 leading-relaxed font-light">
+                        Faturados só com ingressos — antes dos produtos principais serem lançados. Foram 6 lançamentos pagos em 7 semanas, com equipe enxuta e operação estruturada do início ao fim. Um marco dentro da empresa: o CEO foi convidado a apresentar o case no MasterNova, um dos maiores eventos do mercado.
+                    </p>
+                </div>
+                
+                <!-- Case 2 -->
+                <div class="bg-white border border-gold/20 shadow-sm p-8 md:p-12 rounded-3xl">
+                    <div class="flex flex-col md:flex-row justify-between items-baseline mb-6 gap-4 border-b border-gray-100 pb-6">
+                        <p class="text-5xl md:text-6xl font-serif text-dark-gold">R$ 3 milhões</p>
+                        <span class="text-gold font-bold uppercase tracking-widest text-sm bg-cream/30 px-4 py-2 rounded">Simultaneidade</span>
+                    </div>
+                    <p class="text-lg md:text-xl text-gray-700 leading-relaxed font-light">
+                        Faturados em 4 lançamentos que rodaram ao mesmo tempo, com menos de 15 dias para iniciar a captação em cada um. Equipe enxuta, sistema criado dentro do ClickUp com fluxo direto para design, editor e automações — sem precisar passar pelo Estrategista para cada entrega.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DOBRA 8 - RESUMO DO S.O.L. -->
+    <section class="py-24 px-6 md:px-12 bg-white text-center">
+        <div class="container mx-auto max-w-4xl">
+            <h2 class="text-3xl md:text-5xl text-dark-gold mb-2 font-serif">O que é o S.O.L.</h2>
+            <p class="text-xl md:text-2xl text-gold mb-12 font-medium">(Sistema Operacional de Lançamentos)</p>
+            
+            <div class="bg-[#fcfaf7] rounded-3xl p-8 md:p-12 border border-gold/20 text-left shadow-sm">
+                <ul class="space-y-6 text-lg text-gray-800">
+                    <li class="flex items-start gap-4">
+                        <span class="text-gold text-2xl leading-none mt-1">☑</span>
+                        <span>Sistema Operacional de Lançamentos estruturado no ClickUp</span>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <span class="text-gold text-2xl leading-none mt-1">☑</span>
+                        <span>Fases, tarefas, responsáveis e fluxo construídos do zero para o seu modelo</span>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <span class="text-gold text-2xl leading-none mt-1">☑</span>
+                        <span class="font-semibold text-dark-gold">Entrega em até 10 dias úteis</span>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <span class="text-gold text-2xl leading-none mt-1">☑</span>
+                        <span>Inclui reunião de alinhamento, blueprint, alinhamento com equipe e revisão estrutural</span>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <span class="text-gold text-2xl leading-none mt-1">☑</span>
+                        <span>Replicável para cada novo lançamento</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- DOBRA 9 - PERGUNTAS FREQUENTES -->
+    <section class="py-24 px-6 bg-gray-50">
+        <div class="container mx-auto max-w-3xl">
+            <h2 class="text-3xl md:text-5xl text-dark-gold mb-12 text-center font-serif">Perguntas Frequentes</h2>
+            <div class="space-y-4">
+                <details class="bg-white p-6 rounded-xl shadow-sm cursor-pointer group border border-gray-100">
+                    <summary class="font-bold text-lg text-dark-gold flex justify-between items-center list-none">
+                        Preciso ter o ClickUp pago?
+                        <span class="text-gold group-open:rotate-180 transition-transform text-2xl leading-none">▾</span>
+                    </summary>
+                    <p class="mt-4 text-gray-700 leading-relaxed">Não. O plano gratuito já é suficiente para começar. Avalio durante o alinhamento se o seu volume vai exigir algum recurso pago, mas isso é exceção.</p>
+                </details>
+                
+                <details class="bg-white p-6 rounded-xl shadow-sm cursor-pointer group border border-gray-100">
+                    <summary class="font-bold text-lg text-dark-gold flex justify-between items-center list-none">
+                        Serve para qualquer tipo de lançamento?
+                        <span class="text-gold group-open:rotate-180 transition-transform text-2xl leading-none">▾</span>
+                    </summary>
+                    <p class="mt-4 text-gray-700 leading-relaxed">Sim. Já estruturei PLs, semanas de imersão, mentorias em grupo, lançamentos de membros e produtos evergreen. O método se adapta ao seu modelo, não o contrário.</p>
+                </details>
+
+                <details class="bg-white p-6 rounded-xl shadow-sm cursor-pointer group border border-gray-100">
+                    <summary class="font-bold text-lg text-dark-gold flex justify-between items-center list-none">
+                        Quem executa o lançamento depois?
+                        <span class="text-gold group-open:rotate-180 transition-transform text-2xl leading-none">▾</span>
+                    </summary>
+                    <p class="mt-4 text-gray-700 leading-relaxed">Sua equipe. O S.O.L. entrega a estrutura pronta para execução, não inclui acompanhamento da operação. Se precisar disso, temos uma solução separada.</p>
+                </details>
+
+                <details class="bg-white p-6 rounded-xl shadow-sm cursor-pointer group border border-gray-100">
+                    <summary class="font-bold text-lg text-dark-gold flex justify-between items-center list-none">
+                        E se minha equipe não usar o ClickUp?
+                        <span class="text-gold group-open:rotate-180 transition-transform text-2xl leading-none">▾</span>
+                    </summary>
+                    <p class="mt-4 text-gray-700 leading-relaxed">Sem problema. O alinhamento com a equipe faz parte da entrega. A maioria abraça o sistema em poucos dias porque ele facilita o trabalho deles também.</p>
+                </details>
+
+                <details class="bg-white p-6 rounded-xl shadow-sm cursor-pointer group border border-gray-100">
+                    <summary class="font-bold text-lg text-dark-gold flex justify-between items-center list-none">
+                        Posso contratar para mais de um lançamento?
+                        <span class="text-gold group-open:rotate-180 transition-transform text-2xl leading-none">▾</span>
+                    </summary>
+                    <p class="mt-4 text-gray-700 leading-relaxed">Sim. Você pode contratar um pacote com quantos lançamentos estruturados desejar. Mesma qualidade, com desconto por volume.</p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- DOBRA 10 - QUEM SOU EU -->
+    <section class="py-28 px-6 md:px-12 bg-white overflow-hidden">
+        <div class="container mx-auto flex flex-col lg:flex-row gap-12 md:gap-16 items-center">
+            
+            <div class="order-1 relative group w-full max-w-[320px] md:max-w-[380px] mx-auto lg:mx-0 mt-8 mb-12 lg:mb-0 pr-4 md:pr-8 flex-shrink-0">
+                <div class="absolute -inset-4 bg-cream/30 rounded-3xl blur-xl group-hover:bg-cream/40 transition-all"></div>
+                
+                <!-- Wrapper que permite foto menor e selo visível sem ser cortado -->
+                <div class="relative w-full aspect-[4/5] md:aspect-[3/4]">
+                    <!-- Container da Foto Principal -->
+                    <div class="img-container rounded-2xl shadow-xl w-full h-full">
+                        <div class="img-fallback rounded-2xl">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            <p class="text-xs mt-2 font-semibold uppercase tracking-widest opacity-50">Lívia Lima</p>
+                        </div>
+                        <img src="Projetos Estratégicos Fev.26 (16).jpg" alt="Lívia Lima - Gestora Estratégica" class="w-full h-full object-cover rounded-2xl" onerror="handleImgError(this)">
+                    </div>
+                    
+                    <!-- Selo ClickUp Posicionado Para Fora do Container -->
+                    <div class="absolute -bottom-8 -right-4 md:-bottom-10 md:-right-8 w-40 md:w-44 z-20 transform hover:scale-105 transition-transform duration-500">
+                        <div class="img-container aspect-square rounded-full shadow-2xl border-4 border-white bg-dark-gold overflow-hidden">
+                            <div class="img-fallback"></div>
+                            <img src="Proposta de SetUp de Lançamento  Lívia Lima (4).jpg" alt="Selo ClickUp" class="w-full h-full object-cover" onerror="handleImgError(this)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="order-2 text-left mt-10 lg:mt-0 flex-1">
+                <h2 class="text-3xl md:text-5xl text-dark-gold mb-8 font-serif">Quem está por trás do S.O.L.</h2>
+                <div class="space-y-6 text-lg md:text-xl text-gray-700 leading-relaxed">
+                    <p>Sou <strong>Lívia Lima</strong>, gestora estratégica de projetos especializada em lançamentos digitais.</p>
+                    <p>Ao longo de 7 anos, estruturei operações de coprodutores e infoprodutores que faturavam bem mas viviam no caos e transformei isso em sistemas que rodam sem depender do dono.</p>
+                    <p>Já coordenei mais de 100 lançamentos, de produtos de entrada a mentorias de Hight Ticket, sempre com uma premissa: crescimento precisa de estrutura, não de heroísmo.</p>
+                    <p>Não vendo teoria. Entro na operação, monto o sistema e saio quando o seu time já executa com perfeição.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAIXA COM FRASES PASSANDO (Letra maiúscula só na primeira) -->
+    <div class="marquee-container py-4 border-y border-gold/20">
+        <div class="marquee-content" style="animation-duration: 50s;">
+            <div class="marquee-item font-serif-italic italic text-gold text-xl tracking-widest">
+                <span>Estratégia</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
+                <span>Execução</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
+                <span>Liberdade</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
+                <span>Escala</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
+            </div>
+            <div class="marquee-item font-serif-italic italic text-gold text-xl tracking-widest">
+                <span>Estratégia</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
+                <span>Execução</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
+                <span>Liberdade</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
+                <span>Escala</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- DOBRA 11 - CTA FINAL -->
+    <section id="contato" class="py-28 px-6 bg-dark-gold text-center text-white">
+        <div class="container mx-auto max-w-5xl">
+            <h2 class="text-4xl md:text-6xl mb-6 leading-tight font-serif text-white">
+                Chega de rodar lançamento no improviso.
+            </h2>
+            <p class="text-2xl md:text-4xl leading-relaxed mb-12 text-cream" style="font-family: 'Aileron', 'Inter', sans-serif;">
+                A estrutura que falta na sua operação tem nome e pode estar pronta em poucos dias.
+            </p>
+            <div class="space-y-6 mt-16">
+                <a href="https://wa.me/seunumerodewhatsapp" target="_blank" class="btn-cta text-xl md:text-3xl px-12 md:px-20 py-6 md:py-8 shadow-xl not-italic font-bold tracking-widest transition-all">
+                    Quero conhecer a estrutura
+                </a>
+                <p class="text-cream/80 uppercase tracking-widest text-xs font-bold mt-6">30 minutos · Sem compromisso · Você já sai com clareza</p>
+            </div>
+            
+            <div class="mt-20 pt-10 border-t border-white/20">
+                <p class="text-lg text-cream/90">Dúvidas? Me chama no Instagram <a href="#" class="text-gold hover:text-white transition-colors font-bold">@livia.operacoestrategica</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Script da IA Segura -->
+    <script>
+        const apiKey = ""; 
+        const modelName = "gemini-2.5-flash-preview-09-2025";
+
+        async function callGemini(prompt) {
+            const systemPrompt = `Você é Lívia Lima, Gestora Estratégica especializada no Método S.O.L. (Sistema Operacional de Lançamentos). 
+            O usuário descreverá um problema que está vivendo na operação de seu lançamento digital.
+            Sua tarefa é:
+            1. Dar uma resposta empática mas curta reconhecendo a dor.
+            2. Sugerir como o Método S.O.L. e o ClickUp resolveriam isso especificamente.
+            3. Dar 3 passos operacionais imediatos.
+            Mantenha o tom sofisticado e autoritário. Não use aspas. Responda em Português do Brasil.`;
+
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
+            
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] }
+            };
+
+            for (let i = 0; i < 5; i++) {
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    
+                    if (!response.ok) throw new Error('API Error');
+                    
+                    const data = await response.json();
+                    
+                    if (data && data.candidates && data.candidates && data.candidates.content && data.candidates.content.parts && data.candidates.content.parts) {
+                        return data.candidates.content.parts.text;
+                    }
+                    return "Desculpe, tive um problema ao analisar seu caos. Tente novamente!";
+                } catch (error) {
+                    if (i === 4) throw error;
+                    await new Promise(r => setTimeout(r, Math.pow(2, i) * 1000));
+                }
+            }
+        }
+
+        const diagnoseBtn = document.getElementById('diagnose-btn');
+        const painInput = document.getElementById('launch-pain');
+        const aiStatus = document.getElementById('ai-status');
+        const aiResultBox = document.getElementById('ai-result-box');
+        const aiResultContent = document.getElementById('ai-result-content');
+
+        if(diagnoseBtn) {
+            diagnoseBtn.addEventListener('click', async () => {
+                const pain = painInput.value.trim();
+                if (!pain) return;
+
+                diagnoseBtn.disabled = true;
+                diagnoseBtn.style.opacity = '0.5';
+                aiStatus.classList.remove('hidden');
+                aiResultBox.classList.add('hidden');
+
+                try {
+                    const response = await callGemini(pain);
+                    const formattedResponse = response
+                        .split('\n')
+                        .filter(line => line.trim())
+                        .map(line => `<p class="mb-4">${line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>`)
+                        .join('');
+
+                    aiResultContent.innerHTML = formattedResponse;
+                    aiResultBox.classList.remove('hidden');
+                } catch (error) {
+                    aiResultContent.innerHTML = "<p>Ocorreu um erro ao processar sua solicitação. Por favor, tente novamente.</p>";
+                    aiResultBox.classList.remove('hidden');
+                } finally {
+                    diagnoseBtn.disabled = false;
+                    diagnoseBtn.style.opacity = '1';
+                    aiStatus.classList.add('hidden');
+                }
+            });
+        }
+
+        // Ancora suave
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
